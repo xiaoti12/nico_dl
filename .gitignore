@@ -1,0 +1,6 @@
+.gitignore
+*.m3u8
+*.key
+*.txt
+
+.idea
