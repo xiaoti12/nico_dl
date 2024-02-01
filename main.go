@@ -24,9 +24,10 @@ func main() {
 		saveM3U8File(m3u8Content, i)
 		url, iv := findKEYAndIV(m3u8Content)
 		saveKeyFile(url, iv, i)
-		download(i, iv)
+		downloadMedia(i, iv)
 	}
-	//download(0, "0x00")
+	mergeMedia()
+	fmt.Println("download finished")
 }
 
 func loadCookie(filename string) {
@@ -46,6 +47,5 @@ func getM3U8(url string) []byte {
 		fmt.Printf("Error getting m3u8: %s\n", err)
 		return nil
 	}
-	fmt.Println("download m3u8 file")
 	return resp.Body()
 }

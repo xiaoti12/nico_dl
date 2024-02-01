@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func download(fileSuffix int, iv string) {
+func downloadMedia(fileSuffix int, iv string) {
 	curPath, _ := os.Getwd()
 	m3u8Name := fmt.Sprintf("m3u8_%d.m3u8", fileSuffix)
 	saveName := fmt.Sprintf("m3u8_%d", fileSuffix)
@@ -26,9 +26,29 @@ func download(fileSuffix int, iv string) {
 		"--enableDelAfterDone",
 	}
 	cmdStr := strings.Join(cmdArgs, " ")
-	//fmt.Println(cmdStr)
+	runShellCommand(cmdStr)
+}
+
+func mergeMedia() {
+	cmdArgs := []string{
+		"ffmpeg.exe",
+		"-i", "m3u8_0.m4a",
+		"-i", "m3u8_1.mp4",
+		"-c", "copy",
+		"nicovideo.mp4",
+	}
+	cmdStr := strings.Join(cmdArgs, " ")
+	runShellCommand(cmdStr)
+	if err := os.Remove("m3u8_0.m4a"); err != nil {
+		fmt.Println("remove audio file failed:", err)
+	}
+	if err := os.Remove("m3u8_1.mp4"); err != nil {
+		fmt.Println("remove video file failed:", err)
+	}
+}
+
+func runShellCommand(cmdStr string) {
 	cmd := exec.Command("cmd.exe", "/c", cmdStr)
-	cmd.Dir = curPath
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		log.Fatalf("set stdout failed: %v", err)
@@ -41,6 +61,6 @@ func download(fileSuffix int, iv string) {
 	}()
 	err = cmd.Run()
 	if err != nil {
-		log.Fatalf("run download program failed: %v", err)
+		log.Fatalf("run program failed: %v", err)
 	}
 }
