@@ -27,6 +27,12 @@ func downloadMedia(fileSuffix int, iv string) {
 	}
 	cmdStr := strings.Join(cmdArgs, " ")
 	runShellCommand(cmdStr)
+	if err := os.Remove(m3u8Name); err != nil {
+		fmt.Println("remove m3u8 file failed:", err)
+	}
+	if err := os.Remove(keyFileName); err != nil {
+		fmt.Println("remove key file failed:", err)
+	}
 }
 
 func mergeMedia() {
@@ -36,6 +42,10 @@ func mergeMedia() {
 		"-i", "m3u8_1.mp4",
 		"-c", "copy",
 		"nicovideo.mp4",
+	}
+	// ffmpeg error if the output file exists
+	if _, err := os.Stat("nicovideo.mp4"); err == nil {
+		os.Remove("nicovideo.mp4")
 	}
 	cmdStr := strings.Join(cmdArgs, " ")
 	runShellCommand(cmdStr)
@@ -58,6 +68,7 @@ func runShellCommand(cmdStr string) {
 		for scanner.Scan() {
 			fmt.Println(scanner.Text())
 		}
+		stdout.Close()
 	}()
 	err = cmd.Run()
 	if err != nil {

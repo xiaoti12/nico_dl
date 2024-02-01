@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
+	"log"
 	"os"
 )
 
@@ -33,8 +34,7 @@ func main() {
 func loadCookie(filename string) {
 	content, err := os.ReadFile(filename)
 	if err != nil {
-		fmt.Printf("Error reading cookie file: %s\n", err)
-		return
+		log.Fatalf("Error reading cookie file: %s\n", err)
 	}
 	cookies = string(content)
 }
@@ -44,8 +44,7 @@ func getM3U8(url string) []byte {
 		SetHeader("Cookie", cookies).
 		Get(url)
 	if err != nil {
-		fmt.Printf("Error getting m3u8: %s\n", err)
-		return nil
+		log.Fatalf("Error getting m3u8: %s\n", err)
 	}
 	return resp.Body()
 }
