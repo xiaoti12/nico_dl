@@ -1,4 +1,4 @@
-package main
+package match
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func findM3U8(filename string) []string {
+func FindM3U8URL(filename string) []string {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Printf("Error reading file: %s\n", err)
@@ -41,7 +41,7 @@ func findMatch(content []byte, prefix string, getIV bool) (string, string) {
 	return url, iv
 }
 
-func findKEYAndIV(content []byte) (string, string) {
+func FindKEYAndIV(content []byte) (string, string) {
 	lines := strings.Split(string(content), "\n")
 	var key, iv string
 

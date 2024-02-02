@@ -1,4 +1,4 @@
-package main
+package tools
 
 import (
 	"bufio"
@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func downloadMedia(fileSuffix int, iv string) {
+func DownloadMedia(fileSuffix int, iv string) {
 	curPath, _ := os.Getwd()
 	m3u8Name := fmt.Sprintf("m3u8_%d.m3u8", fileSuffix)
 	saveName := fmt.Sprintf("m3u8_%d", fileSuffix)
@@ -35,7 +35,7 @@ func downloadMedia(fileSuffix int, iv string) {
 	}
 }
 
-func mergeMedia() {
+func MergeMedia() {
 	cmdArgs := []string{
 		"ffmpeg.exe",
 		"-i", "m3u8_0.m4a",

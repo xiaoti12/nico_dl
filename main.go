@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-resty/resty/v2"
 	"log"
+	"nico_dl/m3u8"
+	"nico_dl/match"
+	"nico_dl/tools"
 	"os"
 	"path/filepath"
 )
 
 var (
-	client     = resty.New()
-	cookies    string
 	CookieFile string
 	MU38File   string
 )
@@ -18,16 +18,16 @@ var (
 func main() {
 	loadFileNames()
 	loadCookie(CookieFile)
-	m3u8URLs := findM3U8(MU38File)
+	m3u8URLs := match.FindM3U8URL(MU38File)
 	for i, url := range m3u8URLs {
 		//fmt.Println(url)
-		m3u8Content := getM3U8(url)
-		saveM3U8File(m3u8Content, i)
-		url, iv := findKEYAndIV(m3u8Content)
-		saveKeyFile(url, iv, i)
-		downloadMedia(i, iv)
+		m3u8Content := getM3U8Content(url)
+		m3u8.SaveM3U8File(m3u8Content, i)
+		url, iv := match.FindKEYAndIV(m3u8Content)
+		m3u8.SaveKeyFile(url, i)
+		tools.DownloadMedia(i, iv)
 	}
-	mergeMedia()
+	tools.MergeMedia()
 	fmt.Println("download finished")
 }
 
@@ -36,12 +36,12 @@ func loadCookie(filename string) {
 	if err != nil {
 		log.Fatalf("Error reading cookie file: %s\n", err)
 	}
-	cookies = string(content)
+	m3u8.Cookies = string(content)
 }
-func getM3U8(url string) []byte {
+func getM3U8Content(url string) []byte {
 	// use resty client to get the content with cookies
-	resp, err := client.R().
-		SetHeader("Cookie", cookies).
+	resp, err := m3u8.Client.R().
+		SetHeader("Cookie", m3u8.Cookies).
 		Get(url)
 	if err != nil {
 		log.Fatalf("Error getting m3u8: %s\n", err)

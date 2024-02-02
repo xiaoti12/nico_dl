@@ -1,13 +1,19 @@
-package main
+package m3u8
 
 import (
 	"fmt"
+	"github.com/go-resty/resty/v2"
 	"os"
 )
 
-func saveKeyFile(keyURL, iv string, suffix int) {
-	resp, err := client.R().
-		SetHeader("Cookie", cookies).
+var (
+	Client  = resty.New()
+	Cookies string
+)
+
+func SaveKeyFile(keyURL string, suffix int) {
+	resp, err := Client.R().
+		SetHeader("Cookie", Cookies).
 		Get(keyURL)
 	if err != nil {
 		fmt.Printf("Error getting content: %s\n", err)
@@ -22,7 +28,7 @@ func saveKeyFile(keyURL, iv string, suffix int) {
 	fmt.Printf("Key file saved to: %s\n", fileName)
 }
 
-func saveM3U8File(content []byte, suffix int) {
+func SaveM3U8File(content []byte, suffix int) {
 	fileName := fmt.Sprintf("m3u8_%d.m3u8", suffix)
 	err := os.WriteFile(fileName, content, 0644)
 	if err != nil {
