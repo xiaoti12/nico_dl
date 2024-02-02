@@ -17,8 +17,9 @@ func getM3U8Content(url string) []byte {
 	return resp.Body()
 }
 
-func generateM3U8URL(suffix, key, trackID string) string {
+func generateM3U8URL(suffix, key, trackID string, audioRate int) string {
 	apiURL := fmt.Sprintf("https://nvapi.nicovideo.jp/v1/watch/%s/access-rights/hls?actionTrackId=%s", suffix, trackID)
+	postBody := fmt.Sprintf(`{"outputs":[["video-h264-720p","audio-aac-%dkbps"]]}`, audioRate)
 	resp, err := Client.R().
 		SetHeader("Host", "nvapi.nicovideo.jp").
 		SetHeader("Content-Type", "application/json").
@@ -28,7 +29,7 @@ func generateM3U8URL(suffix, key, trackID string) string {
 		SetHeader("X-Frontend-Id", "6").
 		SetHeader("X-Request-With", "https://www.nicovideo.jp").
 		//SetBody([]byte(`{"outputs":[["video-h264-1080p","audio-aac-128kbps"]]}`)).
-		SetBody(`{"outputs":[["video-h264-720p","audio-aac-128kbps"]]}`).
+		SetBody(postBody).
 		Post(apiURL)
 
 	if err != nil {

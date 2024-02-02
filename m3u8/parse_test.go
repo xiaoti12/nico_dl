@@ -34,3 +34,12 @@ func TestGetTrackID(t *testing.T) {
 	}
 	fmt.Println(trackID)
 }
+func TestGetSupportAudio(t *testing.T) {
+	dataMap = nil
+	TestParseData(t)
+	supportRate := getSupportAudio(dataMap)
+	if supportRate == 0 {
+		t.Fatalf("empty supportRate")
+	}
+	fmt.Println(supportRate)
+}

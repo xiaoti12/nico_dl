@@ -27,10 +27,11 @@ func DLMediaWithCode(suffix string) {
 
 	accessKey := getAccessKey(apiDataMap)
 	trackID := getTrackID(apiDataMap)
+	audioRate := getSupportAudio(apiDataMap)
 	fmt.Println("accessKey:", accessKey)
 	fmt.Println("trackID:", trackID)
 
-	m3u8URL := generateM3U8URL(suffix, accessKey, trackID)
+	m3u8URL := generateM3U8URL(suffix, accessKey, trackID, audioRate)
 	m3u8Content := getM3U8Content(m3u8URL)
 	// video and audio m3u8 urls
 	urls := match.FindURLs(m3u8Content)
