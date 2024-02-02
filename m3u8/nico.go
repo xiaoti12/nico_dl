@@ -59,15 +59,19 @@ func getActiveData(url string) string {
 	defer cancel()
 
 	var dataContent string
-
-	//domain := "nicovideo.jp"
+	domain := ".nicovideo.jp"
 	err := chromedp.Run(ctx,
+		SetCookie("nicosid", CookiesMap["nicosid"], domain, "/", false, false),
+		SetCookie("_ss_pp_id", CookiesMap["_ss_pp_id"], domain, "/", false, false),
+		SetCookie("_td", CookiesMap["_td"], domain, "/", false, false),
+		//SetCookie("nico_gc", "", domain, "/", false, false),
+		SetCookie("user_session", CookiesMap["user_session"], domain, "/", true, true),
+		SetCookie("user_session_secure", CookiesMap["user_session_secure"], domain, "/", true, true),
+		//SetCookie("domand_bid", "", domain, "/", true, true),
 		chromedp.Navigate(url),
 		chromedp.PollFunction(pollFunction, &dataContent, chromedp.WithPollingMutation()),
 		chromedp.Stop(),
-		//action,
 	)
-	//err = os.WriteFile("nico2.html", []byte(htmlContent), 0644)
 	if err != nil {
 		log.Fatal(err)
 	}

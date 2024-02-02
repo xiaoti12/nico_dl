@@ -7,8 +7,9 @@ import (
 )
 
 var (
-	Client  = resty.New()
-	Cookies string
+	Client     = resty.New()
+	Cookies    string
+	CookiesMap map[string]string
 )
 
 func SaveKeyFile(keyURL string, suffix int) {

@@ -1,6 +1,7 @@
 package m3u8
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -17,9 +18,10 @@ func TestGetAPIData(t *testing.T) {
 
 func TestGetActiveData(t *testing.T) {
 	Client.SetProxy("http://localhost:7890")
-	url := "https://www.nicovideo.jp/watch/sm42828873"
+	url := "https://www.nicovideo.jp/watch/so43202616"
 	data := getActiveData(url)
 	if data == "" {
 		t.Fatalf("empty data")
 	}
+	fmt.Println(data)
 }
