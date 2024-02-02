@@ -7,12 +7,16 @@ import (
 	"strings"
 )
 
-func FindM3U8URL(filename string) []string {
+func FindURLsWithFile(filename string) []string {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Printf("Error reading file: %s\n", err)
 		return nil
 	}
+	return FindURLs(content)
+}
+
+func FindURLs(content []byte) []string {
 	pattern := `http[s]?://[^\s"]+`
 	re := regexp.MustCompile(pattern)
 	matches := re.FindAllString(string(content), -1)

@@ -28,7 +28,7 @@ func generateM3U8URL(suffix, key, trackID string) string {
 		SetHeader("X-Frontend-Id", "6").
 		SetHeader("X-Request-With", "https://www.nicovideo.jp").
 		//SetBody([]byte(`{"outputs":[["video-h264-1080p","audio-aac-128kbps"]]}`)).
-		SetBody(`{"outputs":[["video-h264-720p","audio-aac-192kbps"]]}`).
+		SetBody(`{"outputs":[["video-h264-720p","audio-aac-128kbps"]]}`).
 		Post(apiURL)
 
 	if err != nil {
@@ -36,7 +36,7 @@ func generateM3U8URL(suffix, key, trackID string) string {
 	}
 	//fmt.Println(string(resp.Body()))
 	if resp.Body() == nil {
-		return ""
+		log.Fatalf("getting top m3u8 url link empty data: %s\n", err)
 	}
 	return parseM3U8ApiContent(resp.Body())
 }
@@ -50,6 +50,8 @@ func parseM3U8ApiContent(content []byte) string {
 	if _, ok := contentMap["data"]; ok {
 		dataMap = contentMap["data"].(map[string]interface{})
 		return dataMap["contentUrl"].(string)
+	} else {
+		log.Fatalf("no url data in m3u8 API content, response:%s", string(content))
 	}
 	return ""
 }

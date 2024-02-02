@@ -1,16 +1,12 @@
 package m3u8
 
 import (
-	"bytes"
 	"context"
-	"fmt"
-	"github.com/PuerkitoBio/goquery"
 	"github.com/chromedp/cdproto/cdp"
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
 	"html"
 	"log"
-	"os"
 	"time"
 )
 
@@ -23,35 +19,7 @@ const pollFunction = `()=>{
   return "";
 }`
 
-func getAPIData(url string) []byte {
-	resp, err := Client.R().
-		SetHeader("Cookie", Cookies).
-		Get(url)
-	if err != nil {
-		fmt.Printf("Error getting nico website: %s\n", err)
-		return nil
-	}
-	time.Sleep(5 * time.Second)
-	docReader := bytes.NewReader(resp.Body())
-	doc, err := goquery.NewDocumentFromReader(docReader)
-	if err != nil {
-		fmt.Printf("Error parsing nico website: %s\n", err)
-		return nil
-	}
-	// write doc content to local file
-	err = os.WriteFile("nico.html", resp.Body(), 0644)
-	if err != nil {
-		fmt.Printf("Error writing file: %s\n", err)
-		return nil
-	}
-	fmt.Println("save nico website to local file: nico.html")
-	doc.Find("#js-initial-watch-data").Each(func(i int, selection *goquery.Selection) {
-		fmt.Println(selection.Text())
-	})
-	return nil
-}
-
-func getActiveData(url string) string {
+func getAPIData(url string) string {
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
