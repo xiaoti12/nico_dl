@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+func loadData() {
+	loadFileNames()
+	loadCookie(CookieFile)
+	loadCookiesMap()
+}
+
 func loadCookie(filename string) {
 	content, err := os.ReadFile(filename)
 	if err != nil {

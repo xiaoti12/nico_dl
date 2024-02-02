@@ -19,6 +19,7 @@ func TestGetAPIData(t *testing.T) {
 func TestGetActiveData(t *testing.T) {
 	Client.SetProxy("http://localhost:7890")
 	url := "https://www.nicovideo.jp/watch/so43202616"
+	CookiesMap = map[string]string{}
 	data := getActiveData(url)
 	if data == "" {
 		t.Fatalf("empty data")

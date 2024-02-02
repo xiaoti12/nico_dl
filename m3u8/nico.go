@@ -61,16 +61,16 @@ func getActiveData(url string) string {
 	var dataContent string
 	domain := ".nicovideo.jp"
 	err := chromedp.Run(ctx,
-		SetCookie("nicosid", CookiesMap["nicosid"], domain, "/", false, false),
-		SetCookie("_ss_pp_id", CookiesMap["_ss_pp_id"], domain, "/", false, false),
-		SetCookie("_td", CookiesMap["_td"], domain, "/", false, false),
+		setCookie("nicosid", CookiesMap["nicosid"], domain, "/", false, false),
+		setCookie("_ss_pp_id", CookiesMap["_ss_pp_id"], domain, "/", false, false),
+		setCookie("_td", CookiesMap["_td"], domain, "/", false, false),
 		//SetCookie("nico_gc", "", domain, "/", false, false),
-		SetCookie("user_session", CookiesMap["user_session"], domain, "/", true, true),
-		SetCookie("user_session_secure", CookiesMap["user_session_secure"], domain, "/", true, true),
+		setCookie("user_session", CookiesMap["user_session"], domain, "/", true, true),
+		setCookie("user_session_secure", CookiesMap["user_session_secure"], domain, "/", true, true),
 		//SetCookie("domand_bid", "", domain, "/", true, true),
 		chromedp.Navigate(url),
 		chromedp.PollFunction(pollFunction, &dataContent, chromedp.WithPollingMutation()),
-		chromedp.Stop(),
+		//chromedp.Stop(),
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -79,7 +79,7 @@ func getActiveData(url string) string {
 	return unescapedData
 }
 
-func SetCookie(name, value, domain, path string, httpOnly, secure bool) chromedp.Action {
+func setCookie(name, value, domain, path string, httpOnly, secure bool) chromedp.Action {
 	return chromedp.ActionFunc(func(ctx context.Context) error {
 		expr := cdp.TimeSinceEpoch(time.Now().Add(180 * 24 * time.Hour))
 		err := network.SetCookie(name, value).
@@ -95,3 +95,10 @@ func SetCookie(name, value, domain, path string, httpOnly, secure bool) chromedp
 		return nil
 	})
 }
+
+func setHeaders(headers map[string]interface{}) chromedp.Tasks {
+	return chromedp.Tasks{
+		network.Enable(),
+		network.SetExtraHTTPHeaders(headers),
+	}
+} // dummy header
