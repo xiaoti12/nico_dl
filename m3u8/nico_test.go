@@ -1,6 +1,8 @@
 package m3u8
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetAPIData(t *testing.T) {
 	Client.SetProxy("http://localhost:7890")

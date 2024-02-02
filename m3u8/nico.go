@@ -72,7 +72,6 @@ func getActiveData(url string) string {
 		log.Fatal(err)
 	}
 	unescapedData := html.UnescapeString(dataContent)
-	fmt.Println(unescapedData)
 	return unescapedData
 }
 
