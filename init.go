@@ -39,19 +39,31 @@ func loadCookiesMap() {
 
 func loadFileNames() {
 	CookieFile = findNameWithExt("txt")
-	MU38File = findNameWithExt("m3u8")
+	if useM3U8 {
+		MU38File = findNameWithExt("m3u8")
+	}
 }
 
 func findNameWithExt(ext string) string {
 	files, err := filepath.Glob("*." + ext)
 	if err != nil {
-		log.Fatalf("Error searching for %s file: %v\n", ext, err)
+		log.Fatalf("寻找%s文件时出错: %v\n", ext, err)
 	}
 	if len(files) == 0 {
-		log.Fatalf("No %s file found", ext)
+		log.Fatalf("未找到%s文件", ext)
 	}
 	if len(files) > 1 {
-		log.Fatalf("More than one %s file found", ext)
+		log.Fatalf("目录下存在多个%s文件", ext)
 	}
 	return files[0]
+}
+
+func checkRunArgs(args []string) {
+	if len(args) == 0 && !useM3U8 {
+		log.Fatalf("未提供视频链接")
+	}
+	if len(args) > 1 {
+		log.Fatalf("只能提供一个视频链接")
+	}
+
 }
