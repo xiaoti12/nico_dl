@@ -10,6 +10,8 @@ import (
 )
 
 func loadData() {
+	curPath, _ := os.Getwd()
+	log.Println("当前路径:", curPath)
 	loadFileNames()
 	loadCookie(CookieFile)
 	loadCookiesMap()

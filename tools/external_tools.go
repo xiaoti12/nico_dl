@@ -47,9 +47,15 @@ func MergeMedia(name string) string {
 		"-c", "copy",
 		fullFileName,
 	}
+	if _, err := os.Stat("m3u8_0.m4a"); err != nil {
+		log.Fatal("未找到音频文件m3u8_0.m4a")
+	}
+	if _, err := os.Stat("m3u8_1.mp4"); err != nil {
+		log.Fatal("未找到视频文件m3u8_1.mp4")
+	}
 	// ffmpeg error if the output file exists
 	if _, err := os.Stat(fullFileName); err == nil {
-		os.Remove("nicovideo.mp4")
+		os.Remove(fullFileName)
 	}
 	cmdStr := strings.Join(cmdArgs, " ")
 	runShellCommand(cmdStr)
