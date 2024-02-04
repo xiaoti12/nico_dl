@@ -38,8 +38,14 @@ func DownloadMedia(fileSuffix int, iv string) {
 	}
 }
 
-func MergeMedia(name string) string {
-	fullFileName := fmt.Sprintf("nicovideo_%s.mp4", name)
+func MergeMedia(suffix, name string) string {
+	var fullFileName string
+	if name == "" {
+		fullFileName = fmt.Sprintf("nicovideo_%s.mp4", suffix)
+	} else {
+		fullFileName = fmt.Sprintf(`%s.mp4`, name)
+	}
+	//fmt.Println(fullFileName)
 	cmdArgs := []string{
 		"ffmpeg.exe",
 		"-i", "m3u8_0.m4a",

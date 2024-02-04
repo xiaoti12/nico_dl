@@ -50,5 +50,6 @@ func getSupportAudio(dataMap map[string]interface{}) int {
 func getVideoName(dataMap map[string]interface{}) string {
 	videoMap := dataMap["video"].(map[string]interface{})
 	title := videoMap["title"].(string)
+	title = strings.ReplaceAll(title, "/", "")
 	return title
 }

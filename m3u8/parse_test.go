@@ -43,3 +43,14 @@ func TestGetSupportAudio(t *testing.T) {
 	}
 	fmt.Println(supportRate)
 }
+
+func TestGetVideoName(t *testing.T) {
+	dataMap = nil
+	TestParseData(t)
+	videoName := getVideoName(dataMap)
+	if videoName == "" {
+		t.Fatalf("empty videoName")
+	}
+	fmt.Println(videoName)
+
+}

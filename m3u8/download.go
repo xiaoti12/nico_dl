@@ -28,6 +28,7 @@ func DLMediaWithCode(suffix string) {
 	accessKey := getAccessKey(apiDataMap)
 	trackID := getTrackID(apiDataMap)
 	audioRate := getSupportAudio(apiDataMap)
+	VideoName = getVideoName(apiDataMap)
 	//fmt.Println("accessKey:", accessKey)
 	//fmt.Println("trackID:", trackID)
 
