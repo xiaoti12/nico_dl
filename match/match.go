@@ -61,6 +61,5 @@ func FindKEYAndIV(content []byte) (string, string) {
 			}
 		}
 	}
-	iv = iv[2:]
 	return key, iv
 }

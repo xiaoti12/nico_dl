@@ -11,8 +11,9 @@ import (
 )
 
 func DownloadMedia(fileSuffix int, iv string) {
+	//如果路径存在非法字符时会报错
 	curPath, _ := os.Getwd()
-	m3u8Name := fmt.Sprintf("m3u8_%d.m3u8", fileSuffix)
+	m3u8Name := filepath.Join(curPath, fmt.Sprintf("m3u8_%d.m3u8", fileSuffix))
 	saveName := fmt.Sprintf("m3u8_%d", fileSuffix)
 	keyFileName := filepath.Join(curPath, fmt.Sprintf("key_%d.key", fileSuffix))
 
@@ -26,7 +27,9 @@ func DownloadMedia(fileSuffix int, iv string) {
 		"--enableDelAfterDone",
 	}
 	cmdStr := strings.Join(cmdArgs, " ")
+	fmt.Println("==========开始使用n_m3u8DL-CLI下载媒体==========")
 	runShellCommand(cmdStr)
+	fmt.Println("==========n_m3u8DL-CLI下载媒体完成==========")
 	if err := os.Remove(m3u8Name); err != nil {
 		fmt.Println("remove m3u8 file failed:", err)
 	}

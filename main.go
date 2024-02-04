@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"nico_dl/m3u8"
 	"nico_dl/tools"
 )
@@ -13,7 +13,8 @@ var (
 
 func main() {
 	loadData()
-	m3u8.DLMediaFiles(MU38File)
+	//m3u8.DLMediasWithM3U8File(MU38File)
+	m3u8.DLMediaWithCode("sm43273809")
 	tools.MergeMedia()
-	fmt.Println("download finished")
+	log.Println("下载完成")
 }

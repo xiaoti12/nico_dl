@@ -3,6 +3,7 @@ package m3u8
 import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
+	"log"
 	"os"
 )
 
@@ -26,15 +27,14 @@ func saveKeyFile(keyURL string, suffix int) {
 		fmt.Printf("Error writing file: %s\n", err)
 		return
 	}
-	fmt.Printf("Key file saved to: %s\n", fileName)
+	log.Printf("保存Key文件为: %s\n", fileName)
 }
 
 func saveM3U8File(content []byte, suffix int) {
 	fileName := fmt.Sprintf("m3u8_%d.m3u8", suffix)
 	err := os.WriteFile(fileName, content, 0644)
 	if err != nil {
-		fmt.Printf("Error writing file: %s\n", err)
-		return
+		log.Fatalf("Error writing file: %s\n", err)
 	}
-	fmt.Printf("M3U8 file saved to: %s\n", fileName)
+	log.Printf("保存M3U8文件为: %s\n", fileName)
 }
