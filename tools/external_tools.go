@@ -31,10 +31,10 @@ func DownloadMedia(fileSuffix int, iv string) {
 	runShellCommand(cmdStr)
 	fmt.Println("==========n_m3u8DL-CLI下载媒体完成==========")
 	if err := os.Remove(m3u8Name); err != nil {
-		fmt.Println("remove m3u8 file failed:", err)
+		fmt.Printf("移除%s出错:%s\n", m3u8Name, err)
 	}
 	if err := os.Remove(keyFileName); err != nil {
-		fmt.Println("remove key file failed:", err)
+		fmt.Printf("移除%s出错:%s\n", keyFileName, err)
 	}
 }
 
@@ -60,10 +60,10 @@ func MergeMedia(name string) string {
 	cmdStr := strings.Join(cmdArgs, " ")
 	runShellCommand(cmdStr)
 	if err := os.Remove("m3u8_0.m4a"); err != nil {
-		fmt.Println("remove audio file failed:", err)
+		fmt.Printf("移除音频文件出错:%s\n", err)
 	}
 	if err := os.Remove("m3u8_1.mp4"); err != nil {
-		fmt.Println("remove video file failed:", err)
+		fmt.Printf("移除视频文件出错:%s\n", err)
 	}
 	return fullFileName
 }
@@ -83,6 +83,6 @@ func runShellCommand(cmdStr string) {
 	}()
 	err = cmd.Run()
 	if err != nil {
-		log.Fatalf("run program failed: %v", err)
+		log.Fatalf("运行外部程序时出错: %v", err)
 	}
 }

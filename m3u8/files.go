@@ -19,14 +19,12 @@ func saveKeyFile(keyURL string, suffix int) {
 		SetHeader("Cookie", Cookies).
 		Get(keyURL)
 	if err != nil {
-		fmt.Printf("Error getting content: %s\n", err)
-		return
+		log.Fatalf("远程获取key文件时出错: %s\n", err)
 	}
 	fileName := fmt.Sprintf("key_%d.key", suffix)
 	err = os.WriteFile(fileName, resp.Body(), 0644)
 	if err != nil {
-		fmt.Printf("Error writing file: %s\n", err)
-		return
+		log.Fatalf("保存key文件%s时出错: %s\n", fileName, err)
 	}
 	log.Printf("保存Key文件为: %s\n", fileName)
 }
@@ -35,7 +33,7 @@ func saveM3U8File(content []byte, suffix int) {
 	fileName := fmt.Sprintf("m3u8_%d.m3u8", suffix)
 	err := os.WriteFile(fileName, content, 0644)
 	if err != nil {
-		log.Fatalf("Error writing file: %s\n", err)
+		log.Fatalf("保存M3U8文件%s时出错: %s\n", fileName, err)
 	}
 	log.Printf("保存M3U8文件为: %s\n", fileName)
 }

@@ -12,7 +12,7 @@ func getM3U8Content(url string) []byte {
 		SetHeader("Cookie", Cookies).
 		Get(url)
 	if err != nil {
-		log.Fatalf("Error getting m3u8: %s\n", err)
+		log.Fatalf("远程获取M3U8文件时出错: %s\n", err)
 	}
 	return resp.Body()
 }
@@ -33,11 +33,12 @@ func generateM3U8URL(suffix, key, trackID string, audioRate int) string {
 		Post(apiURL)
 
 	if err != nil {
-		log.Fatalf("Error getting top m3u8: %s\n", err)
+		log.Println(string(resp.Body()))
+		log.Fatalf("远程获取主m3u8文件URL出错: %s\n", err)
 	}
 	//fmt.Println(string(resp.Body()))
 	if resp.Body() == nil {
-		log.Fatalf("getting top m3u8 url link empty data: %s\n", err)
+		log.Fatalf("远程获取主m3u8文件URL的响应为空: %s\n", err)
 	}
 	return parseM3U8ApiContent(resp.Body())
 }
@@ -45,14 +46,14 @@ func parseM3U8ApiContent(content []byte) string {
 	contentMap := map[string]interface{}{}
 	err := json.Unmarshal(content, &contentMap)
 	if err != nil {
-		log.Fatalf("Error parsing m3u8 api content: %s\n", err)
+		log.Fatalf("解析URL内容时出错: %s\n", err)
 	}
 	dataMap := map[string]interface{}{}
 	if _, ok := contentMap["data"]; ok {
 		dataMap = contentMap["data"].(map[string]interface{})
 		return dataMap["contentUrl"].(string)
 	} else {
-		log.Fatalf("no url data in m3u8 API content, response:%s", string(content))
+		log.Fatalf("响应内容不存在主M3U8的URL, 响应内容:%s", string(content))
 	}
 	return ""
 }

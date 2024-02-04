@@ -20,14 +20,14 @@ func loadData() {
 func loadCookie(filename string) {
 	content, err := os.ReadFile(filename)
 	if err != nil {
-		log.Fatalf("Error reading cookie file: %s\n", err)
+		log.Fatalf("读取cookies文件出错: %s\n", err)
 	}
 	m3u8.Cookies = string(content)
 }
 
 func loadCookiesMap() {
 	if m3u8.Cookies == "" {
-		fmt.Println("No cookie found")
+		fmt.Println("未加载Cookies")
 		return
 	}
 	m3u8.CookiesMap = make(map[string]string)

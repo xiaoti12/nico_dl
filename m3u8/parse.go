@@ -10,7 +10,7 @@ func parseData(dataContent string) map[string]interface{} {
 	dataMap := map[string]interface{}{}
 	err := json.Unmarshal([]byte(dataContent), &dataMap)
 	if err != nil {
-		log.Fatal("Error parsing nico website data to json", err)
+		log.Fatal("解析网页JSON内容时出错:", err)
 	}
 	return dataMap
 }

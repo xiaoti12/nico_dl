@@ -10,7 +10,7 @@ import (
 func FindURLsWithFile(filename string) []string {
 	content, err := os.ReadFile(filename)
 	if err != nil {
-		fmt.Printf("Error reading file: %s\n", err)
+		fmt.Printf("读取文件%s时出错: %s\n", filename, err)
 		return nil
 	}
 	return FindURLs(content)
