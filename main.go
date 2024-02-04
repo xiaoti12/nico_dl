@@ -33,5 +33,5 @@ func main() {
 	}
 
 	fileName := tools.MergeMedia(suffix)
-	log.Println("视频下载完成：%s", fileName)
+	log.Printf("视频下载完成：%s\n", fileName)
 }
