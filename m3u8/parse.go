@@ -45,5 +45,10 @@ func getSupportAudio(dataMap map[string]interface{}) int {
 		}
 	}
 	return supportRate
+}
 
+func getVideoName(dataMap map[string]interface{}) string {
+	videoMap := dataMap["video"].(map[string]interface{})
+	title := videoMap["title"].(string)
+	return title
 }

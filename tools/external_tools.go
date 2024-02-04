@@ -38,16 +38,17 @@ func DownloadMedia(fileSuffix int, iv string) {
 	}
 }
 
-func MergeMedia() {
+func MergeMedia(name string) string {
+	fullFileName := fmt.Sprintf("nicovideo_%s.mp4", name)
 	cmdArgs := []string{
 		"ffmpeg.exe",
 		"-i", "m3u8_0.m4a",
 		"-i", "m3u8_1.mp4",
 		"-c", "copy",
-		"nicovideo.mp4",
+		fullFileName,
 	}
 	// ffmpeg error if the output file exists
-	if _, err := os.Stat("nicovideo.mp4"); err == nil {
+	if _, err := os.Stat(fullFileName); err == nil {
 		os.Remove("nicovideo.mp4")
 	}
 	cmdStr := strings.Join(cmdArgs, " ")
@@ -58,6 +59,7 @@ func MergeMedia() {
 	if err := os.Remove("m3u8_1.mp4"); err != nil {
 		fmt.Println("remove video file failed:", err)
 	}
+	return fullFileName
 }
 
 func runShellCommand(cmdStr string) {

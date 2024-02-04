@@ -32,6 +32,6 @@ func main() {
 		m3u8.DLMediaWithCode(suffix)
 	}
 
-	tools.MergeMedia()
-	log.Println("视频下载完成：nicovideo.mp4")
+	fileName := tools.MergeMedia(suffix)
+	log.Println("视频下载完成：%s", fileName)
 }

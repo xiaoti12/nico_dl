@@ -11,6 +11,7 @@ var (
 	Client     = resty.New()
 	Cookies    string
 	CookiesMap map[string]string
+	VideoName  string
 )
 
 func saveKeyFile(keyURL string, suffix int) {
